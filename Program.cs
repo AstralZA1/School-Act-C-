@@ -1,28 +1,60 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Collections;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace GreetingApp
+namespace GuessingGameTP
 {
-    class GreetingProgram
+    class Guess
+    {
+        ArrayList listofwords = new ArrayList { "moon", "star", "hello", "world", "dog", "cat", "astral", "selene", "jury", "night" };
+        Random number = new Random();
+        int tries = 0;
+        bool guess = true;
+        public void game()
+        {
+            int random = number.Next(0, 9);
+            String word = (string)listofwords[random];
+            StringBuilder wordtoguess = new StringBuilder(String.Empty.PadLeft(word.Length, '*'));
+            Console.WriteLine("Welcome to Word Guessing Game!");
+            Console.WriteLine("You have a maximum of 10 tries to guess the word");
+            Console.WriteLine("Word to Guess is: " + wordtoguess);
+            while (guess == true)
+            {
+                Console.Write("\nEnter a letter: ");
+                tries++;
+                char letter = Convert.ToChar(Console.ReadLine());
+                letter = Char.ToLower(letter);
+                for (int i = 0; i < word.Length; i++)
+                {
+                    if (letter == word[i])
+                    {
+                        wordtoguess[i] = letter;
+                    }
+                }
+                Console.WriteLine(wordtoguess.ToString());
+                if (wordtoguess.ToString() == word)
+                {
+                    Console.WriteLine("Congratulations! You win!" + "\nThe word is: " + word);
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("Keep Guessing");
+                    if (tries == 10)
+                    {
+                        Console.WriteLine("You have already guessed 10 times, you failed to guess the word :( " + "\nThe word is: " + word);
+                        break;
+                    }
+                }
+            }
+        }
+    }
+    class Program
     {
         static void Main(string[] args)
         {
-            Console.Write("Enter your name: ");
-            string name = Console.ReadLine();
-            Console.Write("Enter the total number of your enrolled courses: ");
-            int courses;
-            courses = Convert.ToInt32(Console.ReadLine());
-            Console.Write("Enter the price of your favorite book: ");
-            double price;
-            price = Convert.ToDouble(Console.ReadLine());
-            Console.WriteLine("Name: " + name);
-            Console.WriteLine("Total enrolled courses: " + courses);
-            Console.WriteLine("Price of my favorite book: " + price);
-            Console.WriteLine("\nPress any key to exit...");
-            Console.ReadKey();
+            Guess play = new Guess();
+            play.game();
         }
     }
 }
